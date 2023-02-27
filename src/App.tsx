@@ -1,14 +1,21 @@
 import { ChakraProvider } from '@chakra-ui/react';
-import { Card } from './components/Card';
-import { Header } from './components/Header/Header';
+import { Layout } from './components/Layout';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Conta from './pages/Conta';
 
 function App() {
   return (
-    <ChakraProvider>
-      <Header/>
-      <Card/>
-    </ChakraProvider>
+    <BrowserRouter>
+      <ChakraProvider>
+            <Layout>
+              <Routes>
+                <Route path='/' element={ <Home/> } />
+                <Route path='/conta/:id' element={ <Conta/> } />
+              </Routes>
+            </Layout>
+      </ChakraProvider>
+    </BrowserRouter>
   );
 }
-
 export default App;
