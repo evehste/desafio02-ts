@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import {Center, SimpleGrid, Spinner } from "@chakra-ui/react"
+import { useParams, useNavigate } from "react-router-dom";
 import CardInfo from "../components/CardInfo";
 import { api } from '../api';
-import { useParams, useNavigate } from "react-router-dom";
+import { AppContext } from "../components/AppContext";
 
 interface IUserData {
     id: string,
@@ -15,8 +16,15 @@ interface IUserData {
 const Conta = () => {
     const [userData, setUserData] = useState<null | IUserData>();
 
-    useEffect(() => {
-      const getData =async () => {
+    const {id} = useParams(); //parametro da urls
+    const navigate = useNavigate();
+
+
+    const {isLoggedIn} = useContext(AppContext); //contexto global
+    !isLoggedIn && navigate("/");
+
+    useEffect(() => { //usando para função assincrona
+      const getData = async () => {
         const data: any | IUserData = await api;
         setUserData(data);
       }
@@ -26,8 +34,7 @@ const Conta = () => {
     const actualDate= new Date();
     const formatActualDate = `${actualDate.getDay()}/${actualDate.getMonth()}/${actualDate.getFullYear()} ${actualDate.getHours()}:${actualDate.getMinutes()}`;
 
-    const {id} = useParams();
-    const navigate = useNavigate();
+    
 
     if(userData && id !== userData.id){
         navigate("/");
